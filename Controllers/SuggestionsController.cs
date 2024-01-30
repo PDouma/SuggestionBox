@@ -45,8 +45,19 @@ namespace suggestionbox.Controllers
         }
 
         // GET: Suggestions/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var list = await _context.SuggestionType.ToListAsync();
+            ViewData["typelist"] = list.ConvertAll(a =>
+            {
+                return new SelectListItem()
+                {
+                    Text = a.name,
+                    Value = a.id.ToString(),
+                    Selected = false
+                };
+            });
+
             return View();
         }
 
@@ -54,15 +65,20 @@ namespace suggestionbox.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,subject,description,userId,userName,type,startDate,endDate,categories")] Suggestion suggestion)
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("id,subject,description,userId,userName,suggestionTypeId,startDate,endDate,categories")] Suggestion suggestion)
+        public async Task<IActionResult> Create([FromBody] Suggestion suggestion)
         {
+            var t = _context.SuggestionType.FirstOrDefault(a => a.id == suggestion.suggestionTypeId);
+            suggestion.suggestionType = t;
+
             if (ModelState.IsValid)
             {
                 _context.Add(suggestion);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(suggestion);
         }
 

@@ -35,10 +35,10 @@
             @Html.DisplayFor(model => model.userName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.type)
+            @Html.DisplayNameFor(model => model.GetType().Name) <!-- TODO replace with new type for display -->
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.type)
+            @Html.DisplayFor(model => model.GetType().Name)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.startDate)

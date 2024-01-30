@@ -9,11 +9,12 @@ namespace suggestionbox.Data
 {
     public class suggestionboxContext : DbContext
     {
-        public suggestionboxContext (DbContextOptions<suggestionboxContext> options)
+        public suggestionboxContext(DbContextOptions<suggestionboxContext> options)
             : base(options)
         {
         }
 
         public DbSet<suggestionbox.Models.Suggestion> Suggestion { get; set; } = default!;
+        public DbSet<suggestionbox.Models.SuggestionType> SuggestionType { get; set; } = default!;
     }
 }

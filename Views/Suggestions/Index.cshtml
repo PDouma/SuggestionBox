@@ -10,28 +10,31 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.subject)
+                Onderwerp
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.description)
+                Beschrijving
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.userId)
+                GebruikerId
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.userName)
+                Gebruiker
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.type)
+                Type
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.startDate)
+                Begindatum
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.endDate)
+                Einddatum
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.categories)
+                Duur
+            </th>
+            <th>
+                Categorieën
             </th>
             <th></th>
         </tr>
@@ -52,13 +55,16 @@
                 @Html.DisplayFor(modelItem => item.userName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.type)
+                @Html.DisplayFor(modelItem => item.GetType().Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.startDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.endDate)
+            </td>
+            <td>
+                @((item.endDate - item.startDate).TotalDays)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.categories)
