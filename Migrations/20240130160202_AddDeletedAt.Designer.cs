@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using suggestionbox.Data;
 
@@ -11,9 +12,11 @@ using suggestionbox.Data;
 namespace suggestionbox.Migrations
 {
     [DbContext(typeof(suggestionboxContext))]
-    partial class suggestionboxContextModelSnapshot : ModelSnapshot
+    [Migration("20240130160202_AddDeletedAt")]
+    partial class AddDeletedAt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

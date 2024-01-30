@@ -23,25 +23,7 @@ namespace suggestionbox.Controllers
         // GET: Suggestions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Suggestion.ToListAsync());
-        }
-
-        // GET: Suggestions/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var suggestion = await _context.Suggestion
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (suggestion == null)
-            {
-                return NotFound();
-            }
-
-            return View(suggestion);
+            return View(await _context.Suggestion.Where(a => a.deleted_At == null).ToListAsync());
         }
 
         // GET: Suggestions/Create
@@ -159,7 +141,8 @@ namespace suggestionbox.Controllers
             var suggestion = await _context.Suggestion.FindAsync(id);
             if (suggestion != null)
             {
-                _context.Suggestion.Remove(suggestion);
+                suggestion.deleted_At = DateTime.Now;
+                _context.Suggestion.Update(suggestion);
             }
 
             await _context.SaveChangesAsync();

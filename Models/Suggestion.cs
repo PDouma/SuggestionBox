@@ -22,6 +22,9 @@ namespace suggestionbox.Models
         [DataType(DataType.DateTime)]
         public DateTime endDate { get; set; }
 
+        [DataType(DataType.DateTime)]
+        public DateTime? deleted_At { get; set; }
+
         public string[]? categories { get; set; }
     }
 }
