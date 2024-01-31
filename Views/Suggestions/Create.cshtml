@@ -15,19 +15,19 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label class="control-label">Onderwerp</label>
-                <input asp-for="subject" class="form-control" />
+                <input asp-for="subject" class="form-control" required/>
                 <span asp-validation-for="subject" class="text-danger"></span>
             </div>
             <br />
             <div class="form-group">
                 <label class="control-label">Beschrijving</label>
-                <input asp-for="description" class="form-control" />
+                <input asp-for="description" class="form-control" required/>
                 <span asp-validation-for="description" class="text-danger"></span>
             </div>
             <br />
             <div class="form-group">
                 <label class="control-label">Gebruiker Id</label>
-                <input asp-for="userId" class="form-control" />
+                <input asp-for="userId" type="number" class="form-control" />
                 <span asp-validation-for="userId" class="text-danger"></span>
             </div>
             <br />
@@ -39,7 +39,7 @@
             <br />
             <div class="form-group">
                 <label class="control-label">Suggestie type</label>
-                <select asp-for="suggestionTypeId" class="form-control" asp-items="@list"></select>
+                <select asp-for="suggestionTypeId" class="form-control" asp-items="@list" required></select>
                 <span asp-validation-for="suggestionTypeId" class="text-danger"></span>
             </div>
             <br />
