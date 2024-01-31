@@ -10,28 +10,31 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.subject)
+                Onderwerp
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.description)
+                Beschrijving
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.userId)
+                GebruikerId
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.userName)
+                Gebruiker
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.type)
+                Type
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.startDate)
+                Begindatum
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.endDate)
+                Einddatum
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.categories)
+                Duur
+            </th>
+            <th>
+                Categorieën
             </th>
             <th></th>
         </tr>
@@ -52,7 +55,7 @@
                 @Html.DisplayFor(modelItem => item.userName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.type)
+                @Html.DisplayFor(modelItem => item.suggestionTypeId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.startDate)
@@ -61,11 +64,12 @@
                 @Html.DisplayFor(modelItem => item.endDate)
             </td>
             <td>
+                @Math.Round(((item.endDate - item.startDate).TotalDays), 2)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.categories)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
             </td>
         </tr>

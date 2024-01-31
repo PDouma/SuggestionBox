@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using suggestionbox.Data;
 
@@ -11,9 +12,11 @@ using suggestionbox.Data;
 namespace suggestionbox.Migrations
 {
     [DbContext(typeof(suggestionboxContext))]
-    partial class suggestionboxContextModelSnapshot : ModelSnapshot
+    [Migration("20240130093121_UseSuggestionTypeForSuggestion")]
+    partial class UseSuggestionTypeForSuggestion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +36,6 @@ namespace suggestionbox.Migrations
                     b.Property<string>("categories")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("deleted_At")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -52,6 +52,10 @@ namespace suggestionbox.Migrations
 
                     b.Property<int>("suggestionTypeId")
                         .HasColumnType("int");
+
+                    b.Property<string>("type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("userId")
                         .HasColumnType("int");
@@ -81,9 +85,6 @@ namespace suggestionbox.Migrations
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("require_daterange")
-                        .HasColumnType("bit");
 
                     b.HasKey("id");
 

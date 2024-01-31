@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using suggestionbox.Data;
+using System;
 
 namespace suggestionbox.Models.Data
 {
@@ -10,43 +11,32 @@ namespace suggestionbox.Models.Data
             using (var context = new suggestionboxContext(
                 serviceProvider.GetRequiredService<DbContextOptions<suggestionboxContext>>()))
             {
-                if (context.Suggestion.Any())
-                {
-                    return;   // DB has already been seeded
-                }
-
-                context.Suggestion.AddRange(
-                    new Suggestion
-                    {
-                        subject = "Beleg",
-                        description = "Ik mis X of Y",
-                        userId = 31,
-                        userName = "Dirk",
-                        type = "suggestie",
-                        startDate = DateTime.Now,
-                        endDate = DateTime.Today.AddDays(1),
-                        categories = new[]
-                        {
-                            "fun",
-                            "intern"
-                        }
-                    },
-                    new Suggestion
-                    {
-                        subject = "Uitje",
-                        description = "Teamuitje naar de stad",
-                        type = "suggestie",
-                        startDate = DateTime.Today.AddDays(3),
-                        endDate = DateTime.Today.AddDays(3),
-                        categories = new[]
-                        {
-                            "borrel"
-                        }
-                    }
-                );
-
-                context.SaveChanges();
+                SeedSuggestionType(context);
             }
+        }
+
+        public static void SeedSuggestionType(suggestionboxContext context)
+        {
+            if (context.SuggestionType.Any())
+            {
+                return;   // SuggestionType has already been seeded
+            }
+
+            context.SuggestionType.AddRange(
+                new SuggestionType
+                {
+                    name = "suggestie",
+                    description = ""
+                },
+                new SuggestionType
+                {
+                    name = "uitje",
+                    description = "",
+                    require_daterange = true
+                }
+            );
+
+            context.SaveChanges();
         }
     }
 }

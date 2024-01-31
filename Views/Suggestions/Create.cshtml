@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    var list = (List<SelectListItem>)ViewData["typelist"];
 }
 
 <h1>Create</h1>
@@ -13,45 +14,53 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="subject" class="control-label"></label>
+                <label class="control-label">Onderwerp</label>
                 <input asp-for="subject" class="form-control" />
                 <span asp-validation-for="subject" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <label asp-for="description" class="control-label"></label>
+                <label class="control-label">Beschrijving</label>
                 <input asp-for="description" class="form-control" />
                 <span asp-validation-for="description" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <label asp-for="userId" class="control-label"></label>
+                <label class="control-label">Gebruiker Id</label>
                 <input asp-for="userId" class="form-control" />
                 <span asp-validation-for="userId" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <label asp-for="userName" class="control-label"></label>
+                <label class="control-label">Gebruikersnaam</label>
                 <input asp-for="userName" class="form-control" />
                 <span asp-validation-for="userName" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <label asp-for="type" class="control-label"></label>
-                <input asp-for="type" class="form-control" />
-                <span asp-validation-for="type" class="text-danger"></span>
+                <label class="control-label">Suggestie type</label>
+                <select asp-for="suggestionTypeId" class="form-control" asp-items="@list"></select>
+                <span asp-validation-for="suggestionTypeId" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <label asp-for="startDate" class="control-label"></label>
+                <label class="control-label">Start datum</label>
                 <input asp-for="startDate" class="form-control" />
                 <span asp-validation-for="startDate" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <label asp-for="endDate" class="control-label"></label>
+                <label class="control-label">Eind datum</label>
                 <input asp-for="endDate" class="form-control" />
                 <span asp-validation-for="endDate" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <label asp-for="categories" class="control-label"></label>
+                <label class="control-label">Categorieën</label>
                 <input asp-for="categories" class="form-control" />
                 <span asp-validation-for="categories" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

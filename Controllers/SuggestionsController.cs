@@ -23,97 +23,45 @@ namespace suggestionbox.Controllers
         // GET: Suggestions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Suggestion.ToListAsync());
-        }
-
-        // GET: Suggestions/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            var list = await _context.Suggestion.Where(a => a.deleted_At == null).ToListAsync();
+            foreach(var item in list)
             {
-                return NotFound();
+                var f = 1;
             }
-
-            var suggestion = await _context.Suggestion
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (suggestion == null)
-            {
-                return NotFound();
-            }
-
-            return View(suggestion);
+            return View(list);
         }
 
         // GET: Suggestions/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var list = await _context.SuggestionType.ToListAsync();
+            ViewData["typelist"] = list.ConvertAll(a =>
+            {
+                return new SelectListItem()
+                {
+                    Text = a.name,
+                    Value = a.id.ToString(),
+                    Selected = false
+                };
+            });
+
             return View();
         }
 
-        // POST: Suggestions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,subject,description,userId,userName,type,startDate,endDate,categories")] Suggestion suggestion)
+        //public async Task<IActionResult> Create([FromBody] Suggestion suggestion) //TODO use a consistent format in the front-end so both JSON requests and requests from frontend work
+        public async Task<IActionResult> Create([Bind("id,subject,description,userId,userName,suggestionTypeId,startDate,endDate,categories")] Suggestion suggestion)
         {
+            var t = _context.SuggestionType.FirstOrDefault(a => a.id == suggestion.suggestionTypeId);
+            suggestion.suggestionType = t;
+
             if (ModelState.IsValid)
             {
                 _context.Add(suggestion);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(suggestion);
-        }
 
-        // GET: Suggestions/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var suggestion = await _context.Suggestion.FindAsync(id);
-            if (suggestion == null)
-            {
-                return NotFound();
-            }
-            return View(suggestion);
-        }
-
-        // POST: Suggestions/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,subject,description,userId,userName,type,startDate,endDate,categories")] Suggestion suggestion)
-        {
-            if (id != suggestion.id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(suggestion);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SuggestionExists(suggestion.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
             return View(suggestion);
         }
 
@@ -143,7 +91,8 @@ namespace suggestionbox.Controllers
             var suggestion = await _context.Suggestion.FindAsync(id);
             if (suggestion != null)
             {
-                _context.Suggestion.Remove(suggestion);
+                suggestion.deleted_At = DateTime.Now;
+                _context.Suggestion.Update(suggestion);
             }
 
             await _context.SaveChangesAsync();
