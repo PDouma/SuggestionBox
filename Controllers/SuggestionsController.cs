@@ -48,21 +48,31 @@ namespace suggestionbox.Controllers
             return View();
         }
 
+        //TODO  This is obviously not the way to go. The frontend is currently sending the data in a different way from plain JSON, causing arguements to not bind corretly.
+        //      The current workaround is making two functions calling the same functionality. This needs to be fixed.
         [HttpPost]
-        //public async Task<IActionResult> Create([FromBody] Suggestion suggestion) //TODO use a consistent format in the front-end so both JSON requests and requests from frontend work
         public async Task<IActionResult> Create([Bind("id,subject,description,userId,userName,suggestionTypeId,startDate,endDate,categories")] Suggestion suggestion)
         {
-            var t = _context.SuggestionType.FirstOrDefault(a => a.id == suggestion.suggestionTypeId);
-            suggestion.suggestionType = t;
+            return await createSuggestion(suggestion);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateDup([FromBody] Suggestion suggestion)
+        {
+            return await createSuggestion(suggestion);
+        }
+
+        private async Task<IActionResult> createSuggestion(Suggestion suggestion)
+        {
+            suggestion.suggestionType = _context.SuggestionType.FirstOrDefault(a => a.id == suggestion.suggestionTypeId);
 
             if (ModelState.IsValid)
             {
                 _context.Add(suggestion);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
 
-            return View(suggestion);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Suggestions/Delete/5
